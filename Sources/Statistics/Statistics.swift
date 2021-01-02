@@ -1,3 +1,3 @@
-struct Statistics {
+public struct Statistics {
     var text = "Hello, World!"
 }
