@@ -1,14 +1,23 @@
 import Foundation
 import Combine
+import Logging
 
-extension Statistics {
-    public final class Client {
-        internal let configuration: Configuration
-        internal let network: URLSession
+public final class StatisticsClient {
+    internal let configuration: Configuration
+    internal let network: URLSession
+    internal let logger: Logger
+    
+    public init(configuration: Configuration, network: URLSession = .shared, logger: Logger? = nil) {
+        self.configuration = configuration
+        self.network = network
+        self.logger = logger ?? Logger(label: "client")
+    }
+    
+    public func navigationPublisher(for link: NavigationLink) -> NavigationPublisher {
+        logger.critical("NavigationPublisher for link")
         
-        public init(configuration: Configuration, network: URLSession = .shared) {
-            self.configuration = configuration
-            self.network = network
-        }
+        return NavigationPublisher(
+            with: get(link.id)
+        )
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-extension Statistics.Client {
+extension StatisticsClient {
     typealias Response = (data: Data, response: URLResponse)
     
     private func request(method: String = "GET", path: String, data: Data? = nil, headers: [String: String] = [:], queryParameters: [String: CustomStringConvertible?] = [:]) -> AnyPublisher<Response, Error> {
@@ -41,7 +41,7 @@ extension Statistics.Client {
 
 // MARK: - Convenience
 
-extension Statistics.Client {
+extension StatisticsClient {
     internal func get(_ path: String, queryParameters: [String: CustomStringConvertible?] = [:]) -> AnyPublisher<Response, Error> {
         return self.request(
             method: "GET",
