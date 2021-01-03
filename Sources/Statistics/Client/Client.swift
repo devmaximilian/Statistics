@@ -14,8 +14,6 @@ public final class StatisticsClient {
     }
     
     public func navigationPublisher(for link: NavigationLink) -> NavigationPublisher {
-        logger.critical("NavigationPublisher for link")
-        
         return NavigationPublisher(
             with: get(link.id)
         )
