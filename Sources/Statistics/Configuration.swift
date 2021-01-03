@@ -23,3 +23,27 @@ extension Statistics.Configuration {
         }
     }
 }
+
+// MARK: Build URL
+extension Statistics.Configuration {
+    func buildURL(for path: String, with queryParameters: [String: CustomStringConvertible?]) -> URL {
+        var path = path
+        if path.hasPrefix("/") {
+            path.removeFirst()
+        }
+        guard var components = URLComponents(string: self.baseURL + path) else {
+            fatalError()
+        }
+        if components.queryItems == nil {
+            components.queryItems = []
+        }
+        queryParameters.forEach { (name: String, value: CustomStringConvertible?) in
+            let item = URLQueryItem(
+                name: name,
+                value: value?.description
+            )
+            components.queryItems?.append(item)
+        }
+        return components.url!
+    }
+}
