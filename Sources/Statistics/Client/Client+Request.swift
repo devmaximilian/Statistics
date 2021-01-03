@@ -22,12 +22,12 @@ extension StatisticsClient {
         )
         .tryMap { (data: Data, response: URLResponse) -> Response in
             guard let response = response as? HTTPURLResponse else {
-                throw StatisticsError.networkError(
+                throw StatisticsClientError.networkError(
                     URLError(.unknown)
                 )
             }
             guard 200...299 ~= response.statusCode else {
-                throw StatisticsError.networkError(
+                throw StatisticsClientError.networkError(
                     URLError(
                         URLError.Code(rawValue: response.statusCode)
                     )

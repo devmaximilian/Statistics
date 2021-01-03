@@ -1,6 +1,6 @@
 import Foundation
 
-public enum StatisticsError: Error {
+public enum StatisticsClientError: Error {
     case networkError(URLError)
     case erased(Error)
 }
