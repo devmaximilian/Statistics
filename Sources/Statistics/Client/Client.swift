@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Maximilian Wendel on 2021-01-03.
-//
-
 import Foundation
 import Combine
 
