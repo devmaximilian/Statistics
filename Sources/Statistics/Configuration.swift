@@ -27,9 +27,8 @@ extension Statistics.Configuration {
 // MARK: Build URL
 extension Statistics.Configuration {
     func buildURL(for path: String, with queryParameters: [String: CustomStringConvertible?]) -> URL {
-        var path = path
-        if path.hasPrefix("/") {
-            path.removeFirst()
+        guard path.hasPrefix("/") == false else {
+            return buildURL(for: String(path.suffix(path.count-1)), with: queryParameters)
         }
         guard var components = URLComponents(string: self.baseURL + path) else {
             fatalError()
