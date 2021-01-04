@@ -18,4 +18,12 @@ public final class StatisticsClient {
             with: get(link.id)
         )
     }
+    
+    public func tableDescriptorPublisher(for link: NavigationLink) {
+        
+    }
+    
+    public func tablePublisher(for link: NavigationLink) {
+        
+    }
 }
