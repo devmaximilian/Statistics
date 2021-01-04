@@ -1,8 +1,8 @@
 import Foundation
 import Combine
 
-public struct NavigationPublisher: Publisher {
-    public typealias Output = [NavigationLink]
+public struct TableDescriptorPublisher: Publisher {
+    public typealias Output = TableDescriptor
     public typealias Failure = Error
     
     typealias Upstream = AnyPublisher<StatisticsClient.Response, Error>
@@ -22,7 +22,7 @@ public struct NavigationPublisher: Publisher {
 
 // MARK: Subscription
 
-extension NavigationPublisher {
+extension TableDescriptorPublisher {
     fileprivate final class Inner<S: Subscriber>: Subscription, Subscriber where S.Input == Output, S.Failure == Failure {
         typealias Input = Upstream.Output
         
