@@ -11,12 +11,12 @@ final class NavigationPublisherTests: XCTestCase {
         
         var published: Bool = false
         self.client.navigationPublisher(for: .root)
-            .sink { (completion) in
+            .sink(receiveCompletion: { (completion) in
                 XCTAssert(published, "Should publish values!")
                 condition.fulfill()
-            } receiveValue: { _ in
+            }, receiveValue: { _ in
                 published = true
-            }
+            })
             .store(in: &self.cancellables)
 
         wait(for: [condition], timeout: 30)
@@ -40,7 +40,7 @@ final class NavigationPublisherTests: XCTestCase {
                 receiveRequest: nil
             )
             
-        let task = publisher.sink { _ in } receiveValue: { _ in }
+        let task = publisher.sink(receiveCompletion: { _ in }, receiveValue: { _ in })
         task.cancel()
         
         wait(for: [condition], timeout: 30)
