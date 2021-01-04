@@ -5,6 +5,8 @@ public struct TablePublisher: Publisher {
     public typealias Output = [NavigationLink]
     public typealias Failure = Error
     
+    // TODO: This needs to be a wrapped request as the request
+    //       needs to be modified before being sent (table request).
     typealias Upstream = AnyPublisher<StatisticsClient.Response, Error>
     
     private let upstream: Upstream
