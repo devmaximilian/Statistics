@@ -8,7 +8,7 @@
 import Foundation
 
 public struct TableRequest {
-    let query: [Query]
+    var query: [Query]
     let response: [String: String] = ["format": "json"]
 }
 

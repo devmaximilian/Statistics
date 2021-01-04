@@ -8,9 +8,11 @@ public struct TablePublisher: Publisher {
     typealias Upstream = AnyPublisher<StatisticsClient.Response, Error>
     
     private let upstream: Upstream
+    var tableRequest: TableRequest
 
-    init(with upstream: Upstream) {
+    init(with upstream: Upstream, tableRequest: TableRequest = .empty) {
         self.upstream = upstream
+        self.tableRequest = tableRequest
     }
     
     public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
