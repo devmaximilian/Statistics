@@ -11,5 +11,9 @@ extension TableRequest {
     public struct Selection: Encodable {
         let filter: String = "item"
         let values: [String]
+        
+        init(_ values: [String]) {
+            self.values = values
+        }
     }
 }
