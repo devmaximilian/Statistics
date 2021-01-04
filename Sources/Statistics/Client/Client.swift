@@ -23,7 +23,7 @@ public final class StatisticsClient {
         
     }
     
-    public func tablePublisher(for link: NavigationLink) {
+    public func tablePublisher(for link: NavigationLink, tableRequest: TableRequest = .empty) {
         
     }
 }
