@@ -25,6 +25,17 @@ client.navigationPublisher(for: .root)
     .sink { links in {
         print(links) // -> ["Labour market", "Population", ...]
     }
+
+// Get table (population by region, only total population)
+client.tablePublisher(for: "BE0101A", method: "BefolkningNy")
+    .configureRequest { builder in
+        builder.select("BE0101N1")
+            .filter("Region", by: "00")
+    }
+    .assertNoFailure()
+    .sink { table in {
+        print(table) // -> Table...
+    }
 ```
 
 ---
