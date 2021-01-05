@@ -20,11 +20,17 @@ public final class StatisticsClient {
         )
     }
     
-    public func tableDescriptorPublisher(for link: NavigationLink) {
-        
+    public func tableDescriptorPublisher(for link: NavigationLink) -> TableDescriptorPublisher {
+        return TableDescriptorPublisher(
+            client: self,
+            request: get(link.id)
+        )
     }
     
-    public func tablePublisher(for link: NavigationLink, tableRequest: TableRequest = .empty) {
-        
+    public func tablePublisher(for link: NavigationLink, tableRequest: TableRequest = .empty) -> TablePublisher {
+        return TablePublisher(
+            client: self,
+            request: post(link.id)
+        )
     }
 }
