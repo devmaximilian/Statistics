@@ -51,10 +51,10 @@ public final class StatisticsClient {
         )
     }
     
-    public func tablePublisher(for link: NavigationLink) -> TablePublisher {
+    public func tablePublisher(for link: NavigationLink, method: NavigationLink) -> TablePublisher {
         return TablePublisher(
             client: self,
-            request: post(link.id)
+            request: post("\(link.id)/\(method.id)")
         )
     }
     
