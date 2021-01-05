@@ -1,6 +1,20 @@
 import Foundation
 import Combine
 
+/// A publisher that retrieves a navigation structure.
+///
+/// Example usage:
+///
+///     let client = Statistics.defaultClient
+///
+///     // Get root navigation structure.
+///     client.navigationPublisher(for: .root)
+///         .assertNoFailure()
+///         .map(\.text)
+///         .sink { links in {
+///             print(links) // => ["Labour market", "Population", ...]
+///         }
+///
 public struct NavigationPublisher: Publisher {
     public typealias Output = [NavigationLink]
     public typealias Failure = Error
