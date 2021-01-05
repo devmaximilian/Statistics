@@ -8,7 +8,7 @@ Statistics is available through Swift Package Manager. To install it, simply inc
 
 ```swift
 dependencies: [
-.package(url: "https://github.com/devmaximilian/Statistics.git", from: "1.0.0"),
+    .package(url: "https://github.com/devmaximilian/Statistics.git", from: "1.0.0"),
 ]
 ```
 – alternatively using Xcode via File > Swift Packages > Add Package Dependency...
