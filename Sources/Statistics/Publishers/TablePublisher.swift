@@ -3,9 +3,16 @@ import Combine
 
 /// A publisher that retrieves a table.
 ///
-///     Statistics.defaultClient.tablePublisher(for: link)
-///         .configureRequest { (descriptor, requestBuilder) -> Void in
-///             requestBuilder.select("ContentCode", value: "BE0101N1")
+///     let client = Statistics.defaultClient
+///
+///     client.tablePublisher(for: "BE0101A", method: "BefolkningNy")
+///         .configureRequest { builder in
+///             builder.select("BE0101N1")
+///                 .filter("Region", by: "00")
+///         }
+///         .assertNoFailure()
+///         .sink { table in {
+///             // Use value
 ///         }
 ///
 public struct TablePublisher: Publisher {
