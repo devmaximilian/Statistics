@@ -2,7 +2,7 @@ public enum NavigationLink {
     case level(id: String, text: String)
     case table(id: String, text: String, updated: String)
     
-    var id: String {
+    public var id: String {
         switch self {
             case .level(let string, _): return string
             case .table(let string, _, _): return string
@@ -97,8 +97,30 @@ extension NavigationLink {
                 switch self {
                     case .table: return "squareshape.split.2x2.dotted"
                     case .level: return "list.bullet.indent"
-                    default: return "questionmark.circle"
                 }
         }
+    }
+    
+    private func makePath(_ components: [String]) -> String {
+        guard let current = components.last, current.count > 0 else {
+            return components.dropLast().reversed().joined(separator: "/")
+        }
+        return makePath(components + [estimatePrevious(current)])
+    }
+    
+    private func estimatePrevious(_ code: String) -> String {
+        let newValue: Substring
+        switch code.count {
+            case 6: newValue = code.prefix(2)
+            case 7: newValue = code.prefix(6)
+            case 9: newValue = code.prefix(6) + code.suffix(1)
+            default:
+                newValue = Substring("")
+        }
+        return String(newValue)
+    }
+    
+    var path: String {
+        return makePath([id])
     }
 }
