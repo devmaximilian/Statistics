@@ -15,6 +15,8 @@ dependencies: [
 
 ## Usage
 
+Fetch topics by subject area.
+
 ```swift
 let client = Statistics.defaultClient
 
@@ -25,7 +27,11 @@ client.navigationPublisher(for: .root)
     .sink { links in {
         print(links) // -> ["Labour market", "Population", ...]
     }
+```
 
+Retrieve filtered statistics by a given subject.
+
+```swift
 // Get table (population by region, only total population)
 client.tablePublisher(for: "BE0101A", method: "BefolkningNy")
     .configureRequest { builder in
