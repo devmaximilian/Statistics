@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Table {
+public struct Table: Decodable {
     let columns: [Column]
     let data: [Row]
 //    let comments: [String]
@@ -28,13 +28,5 @@ extension Table {
     
     public var singleKey: Bool {
         return data.first?.key.count ?? 1 < 2
-    }
-    
-    public var time: [Column] {
-        return columns.filter { $0.type == .time }
-    }
-    
-    public var content: [Column] {
-        return columns.filter { $0.type == .content }
     }
 }

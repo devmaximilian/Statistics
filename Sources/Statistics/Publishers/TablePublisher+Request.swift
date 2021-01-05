@@ -11,11 +11,11 @@ import Combine
 extension TablePublisher {
     // Get descriptor?
     
-    public func configureRequest() -> TablePublisher {
+    public func configureRequest(_ configure: (TableRequestBuilder) -> Void) -> TablePublisher {
         var `self` = self
-//        self.tableRequest.query.append(
-//            contentsOf: queries
-//        )
+        let builder = TableRequestBuilder()
+        configure(builder)
+        self.request.httpBody = builder.build()
         return self
     }
 }

@@ -20,10 +20,24 @@ public final class StatisticsClient {
         )
     }
     
-    public func tableDescriptorPublisher(for link: NavigationLink) -> TableDescriptorPublisher {
+    public func navigationPublisher(for code: String) -> NavigationPublisher {
+        return NavigationPublisher(
+            client: self,
+            request: get(code)
+        )
+    }
+    
+    public func tableDescriptorPublisher(for link: NavigationLink, method: NavigationLink) -> TableDescriptorPublisher {
         return TableDescriptorPublisher(
             client: self,
-            request: get(link.id)
+            request: get("\(link.id)/\(method.id)")
+        )
+    }
+    
+    public func tableDescriptorPublisher(for code: String, method: String) -> TablePublisher {
+        return TablePublisher(
+            client: self,
+            request: get("\(code)/\(method)")
         )
     }
     
@@ -31,6 +45,13 @@ public final class StatisticsClient {
         return TablePublisher(
             client: self,
             request: post(link.id)
+        )
+    }
+    
+    public func tablePublisher(for code: String, method: String) -> TablePublisher {
+        return TablePublisher(
+            client: self,
+            request: post("\(code)/\(method)")
         )
     }
 }

@@ -9,13 +9,13 @@ import Combine
 ///         }
 ///
 public struct TablePublisher: Publisher {
-    public typealias Output = [NavigationLink]
+    public typealias Output = Table
     public typealias Failure = Error
     
     typealias Upstream = AnyPublisher<(data: Data, response: URLResponse), Error>
     
     private let client: StatisticsClient
-    private var request: URLRequest
+    var request: URLRequest
 
     init(client: StatisticsClient, request: URLRequest) {
         self.client = client
