@@ -15,7 +15,8 @@ public final class StatisticsClient {
     
     public func navigationPublisher(for link: NavigationLink) -> NavigationPublisher {
         return NavigationPublisher(
-            with: get(link.id)
+            client: self,
+            request: get(link.id)
         )
     }
     

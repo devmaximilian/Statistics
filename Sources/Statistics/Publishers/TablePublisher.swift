@@ -12,21 +12,22 @@ public struct TablePublisher: Publisher {
     public typealias Output = [NavigationLink]
     public typealias Failure = Error
     
-    // TODO: This needs to be a wrapped request as the request
-    //       needs to be modified before being sent (table request).
     typealias Upstream = AnyPublisher<StatisticsClient.Response, Error>
     
-    private let upstream: Upstream
-    var tableRequest: TableRequest
+    private let client: StatisticsClient
+    private var request: URLRequest
 
-    init(with upstream: Upstream, tableRequest: TableRequest = .empty) {
-        self.upstream = upstream
-        self.tableRequest = tableRequest
+    init(client: StatisticsClient, request: URLRequest) {
+        self.client = client
+        self.request = request
     }
     
     public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
         let subscription = Inner(subscriber: subscriber)
-        upstream.subscribe(subscription)
+        subscription.configure(
+            with: client,
+            request: request
+        )
         subscriber.receive(subscription: subscription)
     }
 }
@@ -85,5 +86,17 @@ extension TablePublisher {
             }
             downstream.receive(completion: completion)
         }
+    }
+}
+
+// MARK: Extension to configure data task
+
+extension TablePublisher.Inner {
+    fileprivate func configure(with client: StatisticsClient, request: URLRequest) {
+        client.network.dataTaskPublisher(
+            for: request
+        )
+        .validateResponse()
+        .subscribe(self)
     }
 }

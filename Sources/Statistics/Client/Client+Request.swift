@@ -4,7 +4,7 @@ import Combine
 extension StatisticsClient {
     typealias Response = (data: Data, response: URLResponse)
     
-    private func request(method: String = "GET", path: String, data: Data? = nil, headers: [String: String] = [:], queryParameters: [String: CustomStringConvertible?] = [:]) -> AnyPublisher<Response, Error> {
+    private func request(method: String = "GET", path: String, data: Data? = nil, headers: [String: String] = [:], queryParameters: [String: CustomStringConvertible?] = [:]) -> URLRequest {
         var request = URLRequest(
             url: self.configuration.buildURL(
                 for: path,
@@ -16,33 +16,14 @@ extension StatisticsClient {
         }
         request.httpBody = data
         request.httpMethod = method
-        
-        return self.network.dataTaskPublisher(
-            for: request
-        )
-        .tryMap { (data: Data, response: URLResponse) -> Response in
-            guard let response = response as? HTTPURLResponse else {
-                throw StatisticsClientError.networkError(
-                    URLError(.unknown)
-                )
-            }
-            guard 200...299 ~= response.statusCode else {
-                throw StatisticsClientError.networkError(
-                    URLError(
-                        URLError.Code(rawValue: response.statusCode)
-                    )
-                )
-            }
-            return (data, response)
-        }
-        .eraseToAnyPublisher()
+        return request
     }
 }
 
 // MARK: - Convenience
 
 extension StatisticsClient {
-    internal func get(_ path: String, queryParameters: [String: CustomStringConvertible?] = [:]) -> AnyPublisher<Response, Error> {
+    internal func get(_ path: String, queryParameters: [String: CustomStringConvertible?] = [:]) -> URLRequest {
         return self.request(
             method: "GET",
             path: path,
@@ -50,7 +31,7 @@ extension StatisticsClient {
         )
     }
     
-    internal func patch(_ path: String, data: Data? = nil) -> AnyPublisher<Response, Error> {
+    internal func patch(_ path: String, data: Data? = nil) -> URLRequest {
         return self.request(
             method: "PATCH",
             path: path,
@@ -58,7 +39,7 @@ extension StatisticsClient {
         )
     }
     
-    internal func post(_ path: String, data: Data? = nil) -> AnyPublisher<Response, Error> {
+    internal func post(_ path: String, data: Data? = nil) -> URLRequest {
         return self.request(
             method: "POST",
             path: path,
@@ -66,7 +47,7 @@ extension StatisticsClient {
         )
     }
     
-    internal func put(_ path: String, data: Data? = nil) -> AnyPublisher<Response, Error> {
+    internal func put(_ path: String, data: Data? = nil) -> URLRequest {
         return self.request(
             method: "PUT",
             path: path,
@@ -74,7 +55,7 @@ extension StatisticsClient {
         )
     }
     
-    internal func delete(_ path: String, data: Data? = nil) -> AnyPublisher<Response, Error> {
+    internal func delete(_ path: String, data: Data? = nil) -> URLRequest {
         return self.request(
             method: "DELETE",
             path: path,

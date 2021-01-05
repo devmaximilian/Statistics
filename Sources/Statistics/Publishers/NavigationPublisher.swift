@@ -7,15 +7,20 @@ public struct NavigationPublisher: Publisher {
     
     typealias Upstream = AnyPublisher<StatisticsClient.Response, Error>
     
-    private let upstream: Upstream
+    private let client: StatisticsClient
+    private var request: URLRequest
 
-    init(with upstream: Upstream) {
-        self.upstream = upstream
+    init(client: StatisticsClient, request: URLRequest) {
+        self.client = client
+        self.request = request
     }
     
     public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
         let subscription = Inner(subscriber: subscriber)
-        upstream.subscribe(subscription)
+        subscription.configure(
+            with: client,
+            request: request
+        )
         subscriber.receive(subscription: subscription)
     }
 }
@@ -74,5 +79,17 @@ extension NavigationPublisher {
             }
             downstream.receive(completion: completion)
         }
+    }
+}
+
+// MARK: Extension to configure data task
+
+extension NavigationPublisher.Inner {
+    fileprivate func configure(with client: StatisticsClient, request: URLRequest) {
+        client.network.dataTaskPublisher(
+            for: request
+        )
+        .validateResponse()
+        .subscribe(self)
     }
 }

@@ -13,9 +13,9 @@ extension TablePublisher {
     
     public func query(_ queries: TableRequest.Query...) -> TablePublisher {
         var `self` = self
-        self.tableRequest.query.append(
-            contentsOf: queries
-        )
+//        self.tableRequest.query.append(
+//            contentsOf: queries
+//        )
         return self
     }
 }
