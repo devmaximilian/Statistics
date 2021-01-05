@@ -13,6 +13,11 @@ public final class StatisticsClient {
         self.logger = logger ?? Logger(label: "client")
     }
     
+    /// Returns a publisher that wraps a navigation structure request for a given navigation link.
+    ///
+    /// The publisher publishes data when the request completes, or terminates if the task fails.
+    /// - Parameter link: The NavigationLink for which to create a request.
+    /// - Returns: A publisher that wraps a navigation structure request for the NavigationLink.
     public func navigationPublisher(for link: NavigationLink) -> NavigationPublisher {
         return NavigationPublisher(
             client: self,
@@ -20,6 +25,11 @@ public final class StatisticsClient {
         )
     }
     
+    /// Returns a publisher that wraps a navigation structure request for a given navigation link.
+    ///
+    /// The publisher publishes data when the request completes, or terminates if the task fails.
+    /// - Parameter code: The id of a NavigationLink for which to create a request.
+    /// - Returns: A publisher that wraps a navigation structure request for the NavigationLink id.
     public func navigationPublisher(for code: String) -> NavigationPublisher {
         return NavigationPublisher(
             client: self,
