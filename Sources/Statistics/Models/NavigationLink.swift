@@ -66,3 +66,39 @@ extension NavigationLink {
         return .level(id: "", text: "")
     }
 }
+
+// MARK: Extension
+
+extension NavigationLink {
+    /// - Returns: An appropriate systemImage name
+    public var systemImage: String {
+        switch self.id.prefix(2) {
+            case "AM": return "briefcase"
+            case "BE": return "person.3"
+            case "BO": return "building.2"
+            case "EN": return "bolt"
+            case "FM": return "chart.bar.xaxis"
+            case "HA": return "cart"
+            case "HE": return "house"
+            case "HS": return "cross"
+            case "JO": return "leaf"
+            case "KU": return "paintpalette"
+            case "LE": return "umbrella"
+            case "ME": return "megaphone"
+            case "MI": return "leaf.arrow.triangle.circlepath"
+            case "NR": return "sum"
+            case "NV": return "case"
+            case "OE": return "building.columns"
+            case "PR": return "creditcard"
+            case "SO": return "lifepreserver"
+            case "TK": return "tram"
+            case "UF": return "graduationcap"
+            default:
+                switch self {
+                    case .table: return "squareshape.split.2x2.dotted"
+                    case .level: return "list.bullet.indent"
+                    default: return "questionmark.circle"
+                }
+        }
+    }
+}
