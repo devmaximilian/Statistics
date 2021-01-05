@@ -15,7 +15,7 @@ dependencies: [
 
 ## Usage
 
-Fetch topics by subject area.
+Fetch topics by subject area 🗃
 
 ```swift
 let client = Statistics.defaultClient
@@ -29,7 +29,7 @@ client.navigationPublisher(for: .root)
     }
 ```
 
-Retrieve filtered statistics by a given subject.
+Retrieve filtered statistics by a given subject 📊
 
 ```swift
 // Get table (population by region, only total population)
