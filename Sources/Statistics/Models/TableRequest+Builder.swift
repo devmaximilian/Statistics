@@ -10,7 +10,7 @@ import Foundation
 public final class TableRequestBuilder {
     private var tableRequest: TableRequest = .empty
     
-    public init() {}
+    init() {}
     
     @discardableResult
     public func select(_ values: [String]) -> TableRequestBuilder {
