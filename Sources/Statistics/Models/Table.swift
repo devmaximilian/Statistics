@@ -14,6 +14,8 @@ public struct Table {
     let metadata: [Details]
 }
 
+// TODO: Add specific types of tables, such as single key-table
+
 extension Table {
     public var comments: [(code: String, text: String, comment: String)] {
         return columns.filter {
