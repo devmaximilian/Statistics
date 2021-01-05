@@ -10,8 +10,21 @@ import Foundation
 public struct Table: Decodable {
     let columns: [TableColumn]
     let data: [TableRow]
-//    let comments: [String]
+    let comments: [String]
     let metadata: [TableDetails]
+    
+    public init(decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.columns = try container.decode([TableColumn].self, forKey: .columns)
+        self.data = try container.decode([TableRow].self, forKey: .data)
+        if container.contains(.comments) {
+            self.comments = try container.decode([String].self, forKey: .comments)
+        } else {
+            self.comments = []
+        }
+        self.metadata = try container.decode([TableDetails].self, forKey: .metadata)
+    }
 }
 
 // TODO: Add specific types of tables, such as single key-table
@@ -64,16 +77,5 @@ extension String {
     
     var int: Int {
         return Int(self) ?? 0
-    }
-}
-
-extension Table {
-    public var comments: [(code: String, text: String, comment: String)] {
-        return columns.filter {
-            $0.comment != nil
-        }
-        .map {
-            ($0.code, $0.text, $0.comment ?? "")
-        }
     }
 }
