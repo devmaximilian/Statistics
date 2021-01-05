@@ -25,7 +25,7 @@ extension TableRequest: Encodable {
 }
 
 extension TableRequest {
-    public static var empty: TableRequest {
+    static var empty: TableRequest {
         return TableRequest(query: [])
     }
 }
