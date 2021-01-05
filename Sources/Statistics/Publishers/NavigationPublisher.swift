@@ -12,7 +12,7 @@ import Combine
 ///         .assertNoFailure()
 ///         .map(\.text)
 ///         .sink { links in {
-///             print(links) // => ["Labour market", "Population", ...]
+///             print(links) // -> ["Labour market", "Population", ...]
 ///         }
 ///
 public struct NavigationPublisher: Publisher {
