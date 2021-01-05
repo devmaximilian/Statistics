@@ -27,7 +27,7 @@ public final class StatisticsClient {
         )
     }
     
-    public func tablePublisher(for link: NavigationLink, tableRequest: TableRequest = .empty) -> TablePublisher {
+    public func tablePublisher(for link: NavigationLink) -> TablePublisher {
         return TablePublisher(
             client: self,
             request: post(link.id)

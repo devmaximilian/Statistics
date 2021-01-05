@@ -4,7 +4,7 @@ import Combine
 /// A publisher that retrieves a table.
 ///
 ///     Statistics.defaultClient.tablePublisher(for: link)
-///         .configureTableRequest { (descriptor, requestBuilder) -> Void in
+///         .configureRequest { (descriptor, requestBuilder) -> Void in
 ///             requestBuilder.select("ContentCode", value: "BE0101N1")
 ///         }
 ///

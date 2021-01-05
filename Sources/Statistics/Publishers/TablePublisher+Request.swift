@@ -11,7 +11,7 @@ import Combine
 extension TablePublisher {
     // Get descriptor?
     
-    public func query(_ queries: TableRequest.Query...) -> TablePublisher {
+    public func configureRequest() -> TablePublisher {
         var `self` = self
 //        self.tableRequest.query.append(
 //            contentsOf: queries
