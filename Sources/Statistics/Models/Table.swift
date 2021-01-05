@@ -8,5 +8,31 @@
 import Foundation
 
 public struct Table {
+    let columns: [Column]
+    let data: [Row]
+//    let comments: [String]
+    let metadata: [Details]
+}
+
+extension Table {
+    public var comments: [(code: String, text: String, comment: String)] {
+        return columns.filter {
+            $0.comment != nil
+        }
+        .map {
+            ($0.code, $0.text, $0.comment ?? "")
+        }
+    }
     
+    public var singleKey: Bool {
+        return data.first?.key.count ?? 1 < 2
+    }
+    
+    public var time: [Column] {
+        return columns.filter { $0.type == .time }
+    }
+    
+    public var content: [Column] {
+        return columns.filter { $0.type == .content }
+    }
 }
