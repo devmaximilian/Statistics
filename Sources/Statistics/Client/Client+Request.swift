@@ -2,8 +2,6 @@ import Foundation
 import Combine
 
 extension StatisticsClient {
-    typealias Response = (data: Data, response: URLResponse)
-    
     private func request(method: String = "GET", path: String, data: Data? = nil, headers: [String: String] = [:], queryParameters: [String: CustomStringConvertible?] = [:]) -> URLRequest {
         var request = URLRequest(
             url: self.configuration.buildURL(

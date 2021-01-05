@@ -5,7 +5,7 @@ public struct NavigationPublisher: Publisher {
     public typealias Output = [NavigationLink]
     public typealias Failure = Error
     
-    typealias Upstream = AnyPublisher<StatisticsClient.Response, Error>
+    typealias Upstream = AnyPublisher<(data: Data, response: URLResponse), Error>
     
     private let client: StatisticsClient
     private var request: URLRequest
