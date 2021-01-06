@@ -22,12 +22,10 @@
 
 import Foundation
 import Combine
-import Logging
 
 public final class Client {
     let configuration: Configuration
     let network: URLSession
-    let logger: Logger
     
     /// Creates a new instance of Client.
     ///
@@ -36,10 +34,9 @@ public final class Client {
     ///   - configuration: The client configuration to use.
     ///   - network: The URLSession instance to use.
     ///   - logger: An optional logger for logging.
-    public init(configuration: Configuration, network: URLSession = .shared, logger: Logger? = nil) {
+    public init(configuration: Configuration, network: URLSession = .shared) {
         self.configuration = configuration
         self.network = network
-        self.logger = logger ?? Logger(label: "client")
     }
     
     /// Returns a publisher that wraps a navigation structure request for a navigation link.
@@ -48,7 +45,6 @@ public final class Client {
     /// - Parameter code: The id of a navigation link for which to create a request.
     /// - Returns: A publisher that wraps a navigation structure request for the provided id.
     public func navigationPublisher(for code: String) -> NavigationPublisher {
-        self.logger.info("Getting navigation publisher for \(code.count == 0 ? "root" : code).")
         return NavigationPublisher(
             client: self,
             request: get(code)
@@ -63,7 +59,6 @@ public final class Client {
     ///   - subject: The subject for which to create a request.
     /// - Returns: A publisher that wraps a table request for the given subject.
     public func tablePublisher(for code: String, subject: String) -> TablePublisher {
-        self.logger.info("Getting table publisher for \(code).")
         return TablePublisher(
             client: self,
             request: post("\(code)/\(subject)")
@@ -78,7 +73,6 @@ public final class Client {
     ///   - subject: The subject for which to create a request.
     /// - Returns: A publisher that wraps a table descriptor request for the given subject.
     public func tableDescriptorPublisher(for code: String, subject: String) -> TableDescriptorPublisher {
-        self.logger.info("Getting table descriptor publisher for \(code).")
         return TableDescriptorPublisher(
             client: self,
             request: get("\(code)/\(subject)")
