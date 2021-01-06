@@ -2,8 +2,6 @@ import Foundation
 import Combine
 
 extension TablePublisher {
-    // Get descriptor?
-    
     public func configureRequest(_ configure: @escaping (TableRequestBuilder, TableDescriptor) -> Void) -> AnyPublisher<Table, Error> {
         guard let subject = self.request.url?.lastPathComponent,
            let code = self.request.url?.deletingLastPathComponent().lastPathComponent else {
