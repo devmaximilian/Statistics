@@ -2,6 +2,8 @@
 
 Statistics is a Swift package for interacting with Statistics Sweden's Open Data API.
 
+![Swift](https://github.com/devmaximilian/Statistics/workflows/Swift/badge.svg)
+
 ## Installation
 
 Statistics is available through Swift Package Manager. To install it, simply include it in your package dependency list:
