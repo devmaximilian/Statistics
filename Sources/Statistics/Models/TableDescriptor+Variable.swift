@@ -2,9 +2,9 @@ import Foundation
 
 extension TableDescriptor {
     public enum Variable {
-        case column(code: String, text: String, values: [(value: String, text: String)])
-        case elimination(code: String, text: String, values: [(value: String, text: String)])
-        case time(code: String, text: String, values: [(value: String, text: String)])
+        case column(code: String, label: String, values: [(text: String, value: String)])
+        case elimination(code: String, label: String, values: [(text: String, value: String)])
+        case time(code: String, label: String, values: [(text: String, value: String)])
         
         public var code: String {
             switch self {
@@ -14,15 +14,15 @@ extension TableDescriptor {
             }
         }
         
-        public var text: String {
+        public var label: String {
             switch self {
-                case .column(_, let text, _): return text
-                case .elimination(_, let text, _): return text
-                case .time(_, let text, _): return text
+                case .column(_, let label, _): return label
+                case .elimination(_, let label, _): return label
+                case .time(_, let label, _): return label
             }
         }
         
-        public var values: [(value: String, text: String)] {
+        public var values: [(text: String, value: String)] {
             switch self {
                 case .column(_, _, let values): return values
                 case .elimination(_, _, let values): return values
@@ -40,18 +40,18 @@ extension TableDescriptor.Variable: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        let compositeValues = Array(
+        let values = Array(
             zip(
-                try container.decode([String].self, forKey: .values),
-                try container.decode([String].self, forKey: .valueTexts)
+                try container.decode([String].self, forKey: .valueTexts),
+                try container.decode([String].self, forKey: .values)
             )
         )
         
         elimination: if container.contains(.elimination), try container.decode(Bool.self, forKey: .elimination) == true {
             self = .elimination(
                 code: try container.decode(String.self, forKey: .code),
-                text: try container.decode(String.self, forKey: .text),
-                values: compositeValues
+                label: try container.decode(String.self, forKey: .text),
+                values: values
             )
             return
         }
@@ -59,16 +59,16 @@ extension TableDescriptor.Variable: Decodable {
         time: if container.contains(.time), try container.decode(Bool.self, forKey: .time) == true {
             self = .time(
                 code: try container.decode(String.self, forKey: .code),
-                text: try container.decode(String.self, forKey: .text),
-                values: compositeValues
+                label: try container.decode(String.self, forKey: .text),
+                values: values
             )
             return
         }
         
         self = .column(
             code: try container.decode(String.self, forKey: .code),
-            text: try container.decode(String.self, forKey: .text),
-            values: compositeValues
+            label: try container.decode(String.self, forKey: .text),
+            values: values
         )
     }
 }

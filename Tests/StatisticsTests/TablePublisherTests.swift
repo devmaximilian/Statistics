@@ -54,12 +54,13 @@ final class TablePublisherTests: XCTestCase {
         var published: Bool = false
         self.client.tablePublisher(for: "BE0101A", subject: "BefolkningNy")
             .configureRequest { (builder, descriptor) in
-                guard let variable = descriptor.variables.first else {
+                guard let filter = descriptor.filters.first,
+                      let column = descriptor.columns.first else {
                     XCTFail("No variables present for descriptor.")
                     return
                 }
-                builder.select("BE0101N1")
-                    .filter(variable.code, by: variable.values.map(\.value))
+                builder.select(column)
+                    .filter(filter, by: filter.values.map(\.value))
             }
             .sink(receiveCompletion: { (completion) in
                 XCTAssert(published, "Should publish values!")
