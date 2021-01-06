@@ -10,10 +10,7 @@ extension TableDescriptor {
     public var columns: [(label: String, code: String)] {
         return self.variables
             .filter {
-                if case .column = $0 {
-                    return true
-                }
-                return false
+                "\($0)".hasPrefix("column")
             }
             .map(\.values)
             .reduce(into: []) {
@@ -26,10 +23,7 @@ extension TableDescriptor {
     public var filters: [(label: String, code: String, values: [(text: String, value: String)])] {
         return self.variables
             .filter {
-                if case .elimination = $0 {
-                    return true
-                }
-                return false
+                "\($0)".hasPrefix("elimination")
             }
             .map {
                 ($0.label, $0.code, $0.values)
@@ -39,10 +33,7 @@ extension TableDescriptor {
     public var series: [(label: String, code: String, values: [(text: String, value: String)])] {
         return self.variables
             .filter {
-                if case .time = $0 {
-                    return true
-                }
-                return false
+                "\($0)".hasPrefix("time")
             }
             .map {
                 ($0.label, $0.code, $0.values)
