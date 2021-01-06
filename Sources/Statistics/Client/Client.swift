@@ -26,6 +26,7 @@ public final class StatisticsClient {
     /// - Parameter code: The id of a navigation link for which to create a request.
     /// - Returns: A publisher that wraps a navigation structure request for the provided id.
     public func navigationPublisher(for code: String) -> NavigationPublisher {
+        self.logger.info("Getting navigation publisher for \(code).")
         return NavigationPublisher(
             client: self,
             request: get(code)
@@ -40,6 +41,7 @@ public final class StatisticsClient {
     ///   - subject: The subject for which to create a request.
     /// - Returns: A publisher that wraps a table request for the given subject.
     public func tablePublisher(for code: String, subject: String) -> TablePublisher {
+        self.logger.info("Getting table publisher for \(code).")
         return TablePublisher(
             client: self,
             request: post("\(code)/\(subject)")
@@ -54,6 +56,7 @@ public final class StatisticsClient {
     ///   - subject: The subject for which to create a request.
     /// - Returns: A publisher that wraps a table descriptor request for the given subject.
     public func tableDescriptorPublisher(for code: String, subject: String) -> TableDescriptorPublisher {
+        self.logger.info("Getting table descriptor publisher for \(code).")
         return TableDescriptorPublisher(
             client: self,
             request: get("\(code)/\(subject)")
