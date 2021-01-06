@@ -10,7 +10,7 @@ final class TablePublisherTests: XCTestCase {
         let condition = expectation(description: "TablePublisher should publish values if it has not been cancelled.")
         
         var published: Bool = false
-        self.client.tablePublisher(for: "BE0101A", method: "BefolkningNy")
+        self.client.tablePublisher(for: "BE0101A", subject: "BefolkningNy")
             .configureRequest { builder in
                 builder.select("BE0101N1")
                     .filter("Region", by: "00")
@@ -30,7 +30,7 @@ final class TablePublisherTests: XCTestCase {
     func testCancel() {
         let condition = expectation(description: "TablePublisher should not publish values if it has been cancelled.")
         
-        let publisher = self.client.tablePublisher(for: "BE0101A", method: "BefolkningNy")
+        let publisher = self.client.tablePublisher(for: "BE0101A", subject: "BefolkningNy")
             .handleEvents(
                 receiveSubscription: nil,
                 receiveOutput: { _ in
