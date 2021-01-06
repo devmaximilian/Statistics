@@ -3,9 +3,9 @@ import Combine
 import Logging
 
 public final class StatisticsClient {
-    internal let configuration: Configuration
-    internal let network: URLSession
-    internal let logger: Logger
+    let configuration: Configuration
+    let network: URLSession
+    let logger: Logger
     
     /// Creates a new instance of StatisticsClient.
     ///
