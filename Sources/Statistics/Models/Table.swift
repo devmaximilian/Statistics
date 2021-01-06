@@ -44,6 +44,7 @@ extension Table {
         return values.dropLast().joined(separator: ", ") + " & " + values.last.unsafelyUnwrapped
     }
     
+    /// Table label(s).
     public var label: String {
         return self.metadata(\.label)
     }
