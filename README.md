@@ -48,6 +48,22 @@ client.tablePublisher(for: "BE0101A", subject: "BefolkningNy")
     }
 ```
 
+Only want/need data within a given interval? 📅
+
+```swift
+// Get table (population by region, only total population between 1970 – 1980)
+client.tablePublisher(for: "BE0101A", subject: "BefolkningNy")
+    .configureRequest { builder in
+        builder.select("BE0101N1")
+            .filter("Region", by: "00")
+            .between("1970", "1980")
+    }
+    .assertNoFailure()
+    .sink { table in {
+        print(table) // -> Table...
+    }
+```
+
 ---
 
 ### Legal disclaimer
