@@ -1,6 +1,4 @@
 public struct Statistics {
-    var text = "Hello, World!"
-    
     private static var _defaultClient: Client? = nil
     private static var _defaultConfiguration: Configuration? = nil
     
