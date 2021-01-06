@@ -6,7 +6,7 @@ extension TableDescriptor {
         case elimination(code: String, text: String, values: [(value: String, text: String)])
         case time(code: String, text: String, values: [(value: String, text: String)])
         
-        var code: String {
+        public var code: String {
             switch self {
                 case .column(let code, _, _): return code
                 case .elimination(let code, _, _): return code
