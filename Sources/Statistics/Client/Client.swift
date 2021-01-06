@@ -10,32 +10,21 @@ public final class StatisticsClient {
     /// Creates a new instance of StatisticsClient.
     ///
     /// The client is responsible for providing publishers.
-    /// - Parameter configuration: The client configuration to use.
-    /// - Parameter network: The URLSession instance to use.
-    /// - Parameter logger: An optional logger for logging. A default will be used if not provided.
+    /// - Parameters:
+    ///   - configuration: The client configuration to use.
+    ///   - network: The URLSession instance to use.
+    ///   - logger: An optional logger for logging.
     public init(configuration: Configuration, network: URLSession = .shared, logger: Logger? = nil) {
         self.configuration = configuration
         self.network = network
         self.logger = logger ?? Logger(label: "client")
     }
     
-    /// Returns a publisher that wraps a navigation structure request for a given navigation link.
+    /// Returns a publisher that wraps a navigation structure request for a navigation link.
     ///
     /// The publisher publishes data when the request completes, or terminates if the task fails.
-    /// - Parameter link: The navigation link for which to create a request.
-    /// - Returns: A publisher that wraps a navigation structure request for the navigation link.
-    public func navigationPublisher(for link: NavigationLink) -> NavigationPublisher {
-        return NavigationPublisher(
-            client: self,
-            request: get(link.id)
-        )
-    }
-    
-    /// Returns a publisher that wraps a navigation structure request for a given navigation link.
-    ///
-    /// The publisher publishes data when the request completes, or terminates if the task fails.
-    /// - Parameter code: The id of a NavigationLink for which to create a request.
-    /// - Returns: A publisher that wraps a navigation structure request for the NavigationLink id.
+    /// - Parameter code: The id of a navigation link for which to create a request.
+    /// - Returns: A publisher that wraps a navigation structure request for the provided id.
     public func navigationPublisher(for code: String) -> NavigationPublisher {
         return NavigationPublisher(
             client: self,
@@ -43,55 +32,66 @@ public final class StatisticsClient {
         )
     }
     
-    /// Returns a publisher that wraps a table descriptor request for a given subject.
-    ///
-    /// The publisher publishes data when the request completes, or terminates if the task fails.
-    /// - Parameter link: The navigation link indicating the subject area of the subject.
-    /// - Parameter subject: The navigation link specifying the subject for which to create a request.
-    /// - Returns: A publisher that wraps a table descriptor request for the given subject.
-    public func tableDescriptorPublisher(for link: NavigationLink, subject: NavigationLink) -> TableDescriptorPublisher {
-        return TableDescriptorPublisher(
-            client: self,
-            request: get("\(link.id)/\(subject.id)")
-        )
-    }
-    
-    /// Returns a publisher that wraps a table descriptor request for a given subject.
-    ///
-    /// The publisher publishes data when the request completes, or terminates if the task fails.
-    /// - Parameter link: The subject area of the subject.
-    /// - Parameter subject: The subject for which to create a request.
-    /// - Returns: A publisher that wraps a table descriptor request for the given subject.
-    public func tableDescriptorPublisher(for code: String, subject: String) -> TablePublisher {
-        return TablePublisher(
-            client: self,
-            request: get("\(code)/\(subject)")
-        )
-    }
-    
-    /// Returns a publisher that wraps a table descriptor request for a given subject.
-    ///
-    /// The publisher publishes data when the request completes, or terminates if the task fails.
-    /// - Parameter link: The navigation link indicating the subject area of the subject.
-    /// - Parameter subject: The navigation link specifying the subject for which to create a request.
-    /// - Returns: A publisher that wraps a table descriptor request for the given subject.
-    public func tablePublisher(for link: NavigationLink, subject: NavigationLink) -> TablePublisher {
-        return TablePublisher(
-            client: self,
-            request: post("\(link.id)/\(subject.id)")
-        )
-    }
-    
     /// Returns a publisher that wraps a table request for a given subject.
     ///
     /// The publisher publishes data when the request completes, or terminates if the task fails.
-    /// - Parameter link: The subject area of the subject.
-    /// - Parameter subject: The subject for which to create a request.
+    /// - Parameters:
+    ///   - code: The subject area of the subject.
+    ///   - subject: The subject for which to create a request.
     /// - Returns: A publisher that wraps a table request for the given subject.
     public func tablePublisher(for code: String, subject: String) -> TablePublisher {
         return TablePublisher(
             client: self,
             request: post("\(code)/\(subject)")
         )
+    }
+    
+    /// Returns a publisher that wraps a table descriptor request for a given subject.
+    ///
+    /// The publisher publishes data when the request completes, or terminates if the task fails.
+    /// - Parameters:
+    ///   - code: The subject area of the subject.
+    ///   - subject: The subject for which to create a request.
+    /// - Returns: A publisher that wraps a table descriptor request for the given subject.
+    public func tableDescriptorPublisher(for code: String, subject: String) -> TableDescriptorPublisher {
+        return TableDescriptorPublisher(
+            client: self,
+            request: get("\(code)/\(subject)")
+        )
+    }
+    
+    
+    // MARK: Convenience
+    
+    
+    /// Returns a publisher that wraps a navigation structure request for a navigation link.
+    ///
+    /// The publisher publishes data when the request completes, or terminates if the task fails.
+    /// - Parameter code: The id of a navigation link for which to create a request.
+    /// - Returns: A publisher that wraps a navigation structure request for the provided id.
+    public func navigationPublisher(for code: NavigationLink) -> NavigationPublisher {
+        return self.navigationPublisher(for: code.id)
+    }
+    
+    /// Returns a publisher that wraps a table request for a given subject.
+    ///
+    /// The publisher publishes data when the request completes, or terminates if the task fails.
+    /// - Parameters:
+    ///   - code: The subject area of the subject.
+    ///   - subject: The subject for which to create a request.
+    /// - Returns: A publisher that wraps a table request for the given subject.
+    public func tablePublisher(for code: NavigationLink, subject: NavigationLink) -> TablePublisher {
+        return self.tablePublisher(for: code.id, subject: subject.id)
+    }
+    
+    /// Returns a publisher that wraps a table descriptor request for a given subject.
+    ///
+    /// The publisher publishes data when the request completes, or terminates if the task fails.
+    /// - Parameters:
+    ///   - code: The subject area of the subject.
+    ///   - subject: The subject for which to create a request.
+    /// - Returns: A publisher that wraps a table descriptor request for the given subject.
+    public func tableDescriptorPublisher(for code: NavigationLink, subject: NavigationLink) -> TableDescriptorPublisher {
+        return self.tableDescriptorPublisher(for: code.id, subject: subject.id)
     }
 }
