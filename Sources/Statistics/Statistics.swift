@@ -1,13 +1,13 @@
 public struct Statistics {
     var text = "Hello, World!"
     
-    private static var _defaultClient: StatisticsClient? = nil
-    private static var _defaultConfiguration: StatisticsClient.Configuration? = nil
+    private static var _defaultClient: Client? = nil
+    private static var _defaultConfiguration: Configuration? = nil
     
-    public static var defaultConfiguration: StatisticsClient.Configuration {
+    public static var defaultConfiguration: Configuration {
         get {
             guard let configuration = _defaultConfiguration else {
-                _defaultConfiguration = StatisticsClient.Configuration(language: .dynamic)
+                _defaultConfiguration = Configuration(language: .dynamic)
                 return self.defaultConfiguration
             }
             return configuration
@@ -17,10 +17,10 @@ public struct Statistics {
         }
     }
     
-    public static var defaultClient: StatisticsClient {
+    public static var defaultClient: Client {
         get {
             guard let client = _defaultClient else {
-                _defaultClient = StatisticsClient(configuration: defaultConfiguration)
+                _defaultClient = Client(configuration: defaultConfiguration)
                 return self.defaultClient
             }
             return client

@@ -20,10 +20,10 @@ public struct TableDescriptorPublisher: Publisher {
     
     typealias Upstream = AnyPublisher<(data: Data, response: URLResponse), Error>
     
-    let client: StatisticsClient
+    let client: Client
     var request: URLRequest
 
-    init(client: StatisticsClient, request: URLRequest) {
+    init(client: Client, request: URLRequest) {
         self.client = client
         self.request = request
     }
@@ -98,7 +98,7 @@ extension TableDescriptorPublisher {
 // MARK: Extension to configure data task
 
 extension TableDescriptorPublisher.Inner {
-    fileprivate func configure(with client: StatisticsClient, request: URLRequest) {
+    fileprivate func configure(with client: Client, request: URLRequest) {
         client.network.dataTaskPublisher(
             for: request
         )

@@ -1,20 +1,18 @@
 import Foundation
 
-extension StatisticsClient {
-    /// Client configuration.
-    public struct Configuration {
-        let language: Language
-        var baseURL: String {
-            "https://api.scb.se/OV0104/v1/doris/\(language.value)/ssd/"
-        }
+/// Client configuration.
+public struct Configuration {
+    let language: Language
+    var baseURL: String {
+        "https://api.scb.se/OV0104/v1/doris/\(language.value)/ssd/"
+    }
 
-        public init(language: Language = .swedish) {
-            self.language = language
-        }
+    public init(language: Language = .swedish) {
+        self.language = language
     }
 }
 
-extension StatisticsClient.Configuration {
+extension Configuration {
     /// Used to determine endpoint.
     public enum Language {
         case swedish
@@ -36,7 +34,7 @@ extension StatisticsClient.Configuration {
 }
 
 // MARK: Build URL
-extension StatisticsClient.Configuration {
+extension Configuration {
     func buildURL(for path: String, with queryParameters: [String: CustomStringConvertible?]) -> URL {
         guard path.hasPrefix("/") == false else {
             return buildURL(for: String(path.suffix(path.count-1)), with: queryParameters)

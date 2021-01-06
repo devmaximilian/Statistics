@@ -21,10 +21,10 @@ public struct NavigationPublisher: Publisher {
     
     typealias Upstream = AnyPublisher<(data: Data, response: URLResponse), Error>
     
-    private let client: StatisticsClient
+    private let client: Client
     private var request: URLRequest
 
-    init(client: StatisticsClient, request: URLRequest) {
+    init(client: Client, request: URLRequest) {
         self.client = client
         self.request = request
     }
@@ -99,7 +99,7 @@ extension NavigationPublisher {
 // MARK: Extension to configure data task
 
 extension NavigationPublisher.Inner {
-    fileprivate func configure(with client: StatisticsClient, request: URLRequest) {
+    fileprivate func configure(with client: Client, request: URLRequest) {
         client.network.dataTaskPublisher(
             for: request
         )
