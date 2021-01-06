@@ -7,6 +7,12 @@ public final class StatisticsClient {
     internal let network: URLSession
     internal let logger: Logger
     
+    /// Creates a new instance of StatisticsClient.
+    ///
+    /// The client is responsible for providing publishers.
+    /// - Parameter configuration: The client configuration to use.
+    /// - Parameter network: The URLSession instance to use.
+    /// - Parameter logger: An optional logger for logging. A default will be used if not provided.
     public init(configuration: Configuration, network: URLSession = .shared, logger: Logger? = nil) {
         self.configuration = configuration
         self.network = network
