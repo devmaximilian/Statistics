@@ -5,7 +5,7 @@ import Combine
 ///
 ///     let client = Statistics.defaultClient
 ///
-///     client.tablePublisher(for: "BE0101A", method: "BefolkningNy")
+///     client.tablePublisher(for: "BE0101A", subject: "BefolkningNy")
 ///         .configureRequest { builder in
 ///             builder.select("BE0101N1")
 ///                 .filter("Region", by: "00")
