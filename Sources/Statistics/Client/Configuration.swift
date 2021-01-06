@@ -33,7 +33,6 @@ extension Configuration {
     }
 }
 
-// MARK: Build URL
 extension Configuration {
     func buildURL(for path: String, with queryParameters: [String: CustomStringConvertible?]) -> URL {
         guard path.hasPrefix("/") == false else {

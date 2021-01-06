@@ -26,7 +26,7 @@ public final class Client {
     /// - Parameter code: The id of a navigation link for which to create a request.
     /// - Returns: A publisher that wraps a navigation structure request for the provided id.
     public func navigationPublisher(for code: String) -> NavigationPublisher {
-        self.logger.info("Getting navigation publisher for \(code).")
+        self.logger.info("Getting navigation publisher for \(code.count == 0 ? "root" : code).")
         return NavigationPublisher(
             client: self,
             request: get(code)
@@ -116,11 +116,7 @@ extension Client {
         request.httpMethod = method
         return request
     }
-}
-
-// MARK: Convenience
-
-extension Client {
+    
     func get(_ path: String, queryParameters: [String: CustomStringConvertible?] = [:]) -> URLRequest {
         return self.request(
             method: "GET",
