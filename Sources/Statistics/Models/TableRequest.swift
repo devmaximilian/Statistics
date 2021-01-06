@@ -1,7 +1,7 @@
 import Foundation
 
 struct TableRequest {
-    var query: [TableQuery]
+    var query: [Query]
     let response: [String: String] = ["format": "json"]
 }
 
@@ -25,19 +25,19 @@ extension TableRequest {
 
 // MARK: Query
 
-struct TableQuery: Encodable {
+struct Query: Encodable {
     let code: String
-    let selection: TableSelection
+    let selection: Selection
     
     init(code: String, values: [String]) {
         self.code = code
-        self.selection = TableSelection(values: values)
+        self.selection = Selection(values: values)
     }
 }
 
 // MARK: Selection
 
-struct TableSelection: Encodable {
+struct Selection: Encodable {
     let filter: String = "item"
     let values: [String]
     

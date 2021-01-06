@@ -1,10 +1,11 @@
 import Foundation
 
 extension StatisticsClient {
+    /// Client configuration.
     public struct Configuration {
-        private let language: Language
-        internal var baseURL: String {
-            "https://api.scb.se/OV0104/v1/doris/\(language.rawValue)/ssd/"
+        let language: Language
+        var baseURL: String {
+            "https://api.scb.se/OV0104/v1/doris/\(language.value)/ssd/"
         }
 
         public init(language: Language = .swedish) {
@@ -14,11 +15,21 @@ extension StatisticsClient {
 }
 
 extension StatisticsClient.Configuration {
-    public enum Language: String {
-        case swedish = "sv"
-        case english = "en"
+    /// Used to determine endpoint.
+    public enum Language {
+        case swedish
+        case english
+        case dynamic
+        
+        var value: String {
+            switch self {
+                case .swedish: return "sv"
+                case .english: return "en"
+                case .dynamic: return current.value
+            }
+        }
 
-        public static var detect: Language {
+        private var current: Language {
             return Locale.current.languageCode == "en" ? .english : .swedish
         }
     }

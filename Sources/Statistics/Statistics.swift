@@ -7,7 +7,7 @@ public struct Statistics {
     public static var defaultConfiguration: StatisticsClient.Configuration {
         get {
             guard let configuration = _defaultConfiguration else {
-                _defaultConfiguration = StatisticsClient.Configuration(language: .detect)
+                _defaultConfiguration = StatisticsClient.Configuration(language: .dynamic)
                 return self.defaultConfiguration
             }
             return configuration

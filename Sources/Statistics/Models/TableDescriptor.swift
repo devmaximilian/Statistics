@@ -1,5 +1,6 @@
 import Foundation
 
+/// A table descriptor containing metadata for a table.
 public struct TableDescriptor: Decodable {
     public let title: String
     private let variables: [Variable]

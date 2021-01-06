@@ -1,7 +1,9 @@
+/// A navigation link that refers to a nested navigation structure or a table.
 public enum NavigationLink {
     case level(id: String, text: String)
     case table(id: String, text: String, updated: String)
     
+    /// The id of a nested navigation structure or a table.
     public var id: String {
         switch self {
             case .level(let string, _): return string
@@ -9,13 +11,16 @@ public enum NavigationLink {
         }
     }
     
-    public var text: String {
+    /// A label to display for the link.
+    public var label: String {
         switch self {
             case .level(_, let string): return string
             case .table(_, let string, _): return string
         }
     }
     
+    /// When the table was updated last.
+    /// - Note: Links to nested navigation structures return nil.
     public var updated: String? {
         guard case .table(_, _, let string) = self else {
             return nil
@@ -23,8 +28,6 @@ public enum NavigationLink {
         return string
     }
 }
-
-// MARK: Decodable conformance
 
 extension NavigationLink: Decodable {
     private enum CodingKeys: String, CodingKey {
@@ -55,72 +58,15 @@ extension NavigationLink: Decodable {
         throw DecodingError.dataCorrupted(
             DecodingError.Context(
                 codingPath: decoder.codingPath,
-                debugDescription: "Unrecognized type ”\(type)”"
+                debugDescription: "Unrecognized link type ”\(type)”"
             )
         )
     }
 }
 
 extension NavigationLink {
+    /// Link to root navigation structure.
     public static var root: Self {
         return .level(id: "", text: "")
-    }
-}
-
-// MARK: Extension
-
-extension NavigationLink {
-    /// - Returns: An appropriate systemImage name
-    public var systemImage: String {
-        switch self.id.prefix(2) {
-            case "AM": return "briefcase"
-            case "BE": return "person.3"
-            case "BO": return "building.2"
-            case "EN": return "bolt"
-            case "FM": return "chart.bar.xaxis"
-            case "HA": return "cart"
-            case "HE": return "house"
-            case "HS": return "cross"
-            case "JO": return "leaf"
-            case "KU": return "paintpalette"
-            case "LE": return "umbrella"
-            case "ME": return "megaphone"
-            case "MI": return "leaf.arrow.triangle.circlepath"
-            case "NR": return "sum"
-            case "NV": return "case"
-            case "OE": return "building.columns"
-            case "PR": return "creditcard"
-            case "SO": return "lifepreserver"
-            case "TK": return "tram"
-            case "UF": return "graduationcap"
-            default:
-                switch self {
-                    case .table: return "squareshape.split.2x2.dotted"
-                    case .level: return "list.bullet.indent"
-                }
-        }
-    }
-    
-    private func makePath(_ components: [String]) -> String {
-        guard let current = components.last, current.count > 0 else {
-            return components.dropLast().reversed().joined(separator: "/")
-        }
-        return makePath(components + [estimatePrevious(current)])
-    }
-    
-    private func estimatePrevious(_ code: String) -> String {
-        let newValue: Substring
-        switch code.count {
-            case 6: newValue = code.prefix(2)
-            case 7: newValue = code.prefix(6)
-            case 9: newValue = code.prefix(6) + code.suffix(1)
-            default:
-                newValue = Substring("")
-        }
-        return String(newValue)
-    }
-    
-    var path: String {
-        return makePath([id])
     }
 }
