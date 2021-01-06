@@ -23,7 +23,7 @@ public struct TablePublisher: Publisher {
     
     typealias Upstream = AnyPublisher<(data: Data, response: URLResponse), Error>
     
-    private let client: StatisticsClient
+    let client: StatisticsClient
     var request: URLRequest
 
     init(client: StatisticsClient, request: URLRequest) {

@@ -3,7 +3,7 @@ import Foundation
 public struct Table: Decodable {
     public let columns: [TableColumn]
     public let data: [TableRow]
-    public let comments: [String]
+    public let comments: [TableComment]
     public let metadata: [TableDetails]
     
     public init(decoder: Decoder) throws {
@@ -12,7 +12,7 @@ public struct Table: Decodable {
         self.columns = try container.decode([TableColumn].self, forKey: .columns)
         self.data = try container.decode([TableRow].self, forKey: .data)
         if container.contains(.comments) {
-            self.comments = try container.decode([String].self, forKey: .comments)
+            self.comments = try container.decode([TableComment].self, forKey: .comments)
         } else {
             self.comments = []
         }
@@ -43,6 +43,14 @@ public enum DataType: String, Decodable {
         
         self = DataType(rawValue: string) ?? .invalid
     }
+}
+
+// MARK: Comment
+
+public struct TableComment: Decodable {
+    public let variable: String
+    public let value: String
+    public let comment: String
 }
 
 // MARK: Row
