@@ -1,20 +1,8 @@
 import Foundation
 
-struct TableRequest {
+struct TableRequest: Encodable {
     var query: [Query]
     let response: [String: String] = ["format": "json"]
-}
-
-extension TableRequest: Encodable {
-    private enum CodingKeys: String, CodingKey {
-        case query, response
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(query, forKey: .query)
-        try container.encode(response, forKey: .response)
-    }
 }
 
 extension TableRequest {
