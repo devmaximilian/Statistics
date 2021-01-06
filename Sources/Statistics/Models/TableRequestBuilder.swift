@@ -11,13 +11,17 @@ public final class TableRequestBuilder {
         return try? encoder.encode(tableRequest)
     }
     
+    private func append(code: String, values: [String]) -> TableRequestBuilder {
+        let query = Query(code: code, values: values)
+        tableRequest.query.append(query)
+        return self
+    }
+    
     // MARK: Select
     
     @discardableResult
     public func select(_ values: [String]) -> TableRequestBuilder {
-        let query = Query(code: "ContentsCode", values: values)
-        tableRequest.query.append(query)
-        return self
+        return self.append(code: "ContentsCode", values: values)
     }
     
     @discardableResult
@@ -34,9 +38,7 @@ public final class TableRequestBuilder {
     
     @discardableResult
     public func filter(_ code: String, by values: [String]) -> TableRequestBuilder {
-        let query = Query(code: code, values: values)
-        tableRequest.query.append(query)
-        return self
+        return self.append(code: code, values: values)
     }
     
     @discardableResult
@@ -72,11 +74,23 @@ public final class TableRequestBuilder {
             
             return true
         }
-        return self.filter(variable.code, by: values)
+        return self.append(code: variable.code, values: values)
     }
     
     @discardableResult
     public func between(_ start: (text: String, value: String)? = nil, _ stop: (text: String, value: String)? = nil, using variable: (label: String, code: String, values: [(text: String, value: String)])) -> TableRequestBuilder {
         return self.between(start?.value, stop?.value, using: variable)
+    }
+    
+    @discardableResult
+    public func between(_ start: CustomStringConvertible, _ stop: CustomStringConvertible) -> TableRequestBuilder {
+        guard let start = Int(start.description), let stop = Int(stop.description) else {
+            return self
+        }
+        var values: [String] = []
+        for i in Int(start)...Int(stop) {
+            values.append(i.description)
+        }
+        return self.append(code: "Tid", values: values)
     }
 }
