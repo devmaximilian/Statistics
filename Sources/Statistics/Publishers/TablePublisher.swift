@@ -1,7 +1,9 @@
 import Foundation
 import Combine
 
-/// A publisher that retrieves a table.
+/// A publisher that publishes a table.
+///
+/// Example usage:
 ///
 ///     let client = Statistics.defaultClient
 ///
@@ -12,7 +14,7 @@ import Combine
 ///         }
 ///         .assertNoFailure()
 ///         .sink { table in {
-///             // Use value
+///             // Use table.
 ///         }
 ///
 public struct TablePublisher: Publisher {

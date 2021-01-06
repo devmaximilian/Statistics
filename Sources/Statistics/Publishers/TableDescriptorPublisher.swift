@@ -1,6 +1,19 @@
 import Foundation
 import Combine
 
+/// A publisher that publishes metadata for a table.
+///
+/// Example usage:
+///
+///     let client = Statistics.defaultClient
+///
+///     // Get metadata for a table.
+///     client.tableDescriptorPublisher(for: "BE0101A", subject: "BefolkningNy")
+///         .assertNoFailure()
+///         .sink { tableDescriptor in {
+///             // Use table descriptor.
+///         }
+///
 public struct TableDescriptorPublisher: Publisher {
     public typealias Output = TableDescriptor
     public typealias Failure = Error
