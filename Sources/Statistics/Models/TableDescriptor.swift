@@ -35,7 +35,7 @@ extension TableDescriptor {
             }
     }
     
-    public var series: [(label: String, code: String)] {
+    public var series: [(label: String, code: String, values: [(text: String, value: String)])] {
         return self.variables
             .filter {
                 if case .time = $0 {
@@ -44,7 +44,7 @@ extension TableDescriptor {
                 return false
             }
             .map {
-                ($0.label, $0.code)
+                ($0.label, $0.code, $0.values)
             }
     }
 }
