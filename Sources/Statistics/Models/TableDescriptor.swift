@@ -2,7 +2,7 @@ import Foundation
 
 public struct TableDescriptor {
     public let title: String
-    let variables: [Variable]
+    public let variables: [Variable]
 }
 
 // MARK: Decodable conformance
