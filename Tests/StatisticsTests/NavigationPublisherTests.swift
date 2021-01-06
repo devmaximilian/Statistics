@@ -45,8 +45,4 @@ final class NavigationPublisherTests: XCTestCase {
         
         wait(for: [condition], timeout: 30)
     }
-
-    static var allTests = [
-        ("testCancel", testCancel),
-    ]
 }
