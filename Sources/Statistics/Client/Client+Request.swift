@@ -18,10 +18,10 @@ extension StatisticsClient {
     }
 }
 
-// MARK: - Convenience
+// MARK: Convenience
 
 extension StatisticsClient {
-    internal func get(_ path: String, queryParameters: [String: CustomStringConvertible?] = [:]) -> URLRequest {
+    func get(_ path: String, queryParameters: [String: CustomStringConvertible?] = [:]) -> URLRequest {
         return self.request(
             method: "GET",
             path: path,
@@ -29,33 +29,9 @@ extension StatisticsClient {
         )
     }
     
-    internal func patch(_ path: String, data: Data? = nil) -> URLRequest {
-        return self.request(
-            method: "PATCH",
-            path: path,
-            data: data
-        )
-    }
-    
-    internal func post(_ path: String, data: Data? = nil) -> URLRequest {
+    func post(_ path: String, data: Data? = nil) -> URLRequest {
         return self.request(
             method: "POST",
-            path: path,
-            data: data
-        )
-    }
-    
-    internal func put(_ path: String, data: Data? = nil) -> URLRequest {
-        return self.request(
-            method: "PUT",
-            path: path,
-            data: data
-        )
-    }
-    
-    internal func delete(_ path: String, data: Data? = nil) -> URLRequest {
-        return self.request(
-            method: "DELETE",
             path: path,
             data: data
         )
