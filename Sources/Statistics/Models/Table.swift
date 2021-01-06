@@ -1,10 +1,10 @@
 import Foundation
 
 public struct Table: Decodable {
-    let columns: [TableColumn]
-    let data: [TableRow]
-    let comments: [String]
-    let metadata: [TableDetails]
+    public let columns: [TableColumn]
+    public let data: [TableRow]
+    public let comments: [String]
+    public let metadata: [TableDetails]
     
     public init(decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -24,20 +24,20 @@ public struct Table: Decodable {
 
 // MARK: Column
 
-struct TableColumn: Decodable {
-    let code: String
-    let text: String
-    let type: DataType
-    let comment: String?
+public struct TableColumn: Decodable {
+    public let code: String
+    public let text: String
+    public let type: DataType
+    public let comment: String?
 }
 
-enum DataType: String, Decodable {
+public enum DataType: String, Decodable {
     case time = "t"
     case content = "c"
     case data = "d"
     case invalid = ""
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
         
@@ -47,18 +47,18 @@ enum DataType: String, Decodable {
 
 // MARK: Row
 
-struct TableRow: Decodable {
-    let key: [String]
-    let values: [String]
+public struct TableRow: Decodable {
+    public let key: [String]
+    public let values: [String]
 }
 
 // MARK: Details
 
-struct TableDetails: Decodable {
-    let infofile: String
-    let updated: String
-    let label: String
-    let source: String
+public struct TableDetails: Decodable {
+    public let infofile: String
+    public let updated: String
+    public let label: String
+    public let source: String
 }
 
 // MARK: Convenience
