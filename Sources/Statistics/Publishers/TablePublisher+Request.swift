@@ -22,7 +22,7 @@ extension TablePublisher {
                 configure(builder, descriptor)
                 self.request.httpBody = builder.build()
                 return self
-            }
+            }.eraseToAnyPublisher()
     }
     
     /// Configure the table publishers request.
