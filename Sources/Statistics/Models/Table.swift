@@ -1,82 +1,113 @@
 import Foundation
 
+/// A table containing the requested statistics.
 public struct Table: Decodable {
-    public let columns: [TableColumn]
-    public let data: [TableRow]
-    public let comments: [TableComment]
-    public let metadata: [TableDetails]
+    /// Table columns.
+    public let columns: [Column]
+    
+    /// Table rows.
+    public let rows: [Row]
+    
+    /// Table comments.
+    public let comments: [Comment]
+    
+    /// Table metadata.
+    public let metadata: [Metadata]
+    
+    private enum CodingKeys: String, CodingKey {
+        case columns, rows = "data", comments, metadata
+    }
     
     public init(decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        self.columns = try container.decode([TableColumn].self, forKey: .columns)
-        self.data = try container.decode([TableRow].self, forKey: .data)
+        self.columns = try container.decode([Column].self, forKey: .columns)
+        self.rows = try container.decode([Row].self, forKey: .rows)
         if container.contains(.comments) {
-            self.comments = try container.decode([TableComment].self, forKey: .comments)
+            self.comments = try container.decode([Comment].self, forKey: .comments)
         } else {
             self.comments = []
         }
-        self.metadata = try container.decode([TableDetails].self, forKey: .metadata)
+        self.metadata = try container.decode([Metadata].self, forKey: .metadata)
     }
 }
 
-// TODO: Add specific types of tables, such as single key-table
+extension Table {
+    private func metadata(_ keyPath: KeyPath<Metadata, String>) -> String {
+        guard metadata.count > 0 else {
+            return ""
+        }
+        guard metadata.count > 1 else {
+            return metadata.first.unsafelyUnwrapped[keyPath: keyPath]
+        }
+        let values = metadata.map { $0[keyPath: keyPath] }
+        return values.dropLast().joined(separator: ", ") + " & " + values.last.unsafelyUnwrapped
+    }
+    
+    public var label: String {
+        return self.metadata(\.label)
+    }
+    
+    /// Table source(s).
+    public var source: String {
+        return self.metadata(\.source)
+    }
+    
+    /// Table info file(s).
+    public var infofile: String {
+        return self.metadata(\.infofile)
+    }
+    
+    /// Table update date(s).
+    public var updated: String {
+        return self.metadata(\.updated)
+    }
+}
 
-// MARK: Column
+// MARK: - Internals
 
-public struct TableColumn: Decodable {
+/// Table column.
+public struct Column: Decodable {
     public let code: String
     public let text: String
-    public let type: DataType
+    public let type: ColumnType
     public let comment: String?
 }
 
-public enum DataType: String, Decodable {
-    case time = "t"
-    case content = "c"
-    case data = "d"
-    case invalid = ""
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let string = try container.decode(String.self)
+extension Column {
+    /// Table column type.
+    public enum ColumnType: String, Decodable {
+        case time = "t"
+        case column = "c"
+        case data = "d"
+        case invalid = ""
         
-        self = DataType(rawValue: string) ?? .invalid
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let string = try container.decode(String.self)
+            
+            self = ColumnType(rawValue: string) ?? .invalid
+        }
     }
 }
 
-// MARK: Comment
-
-public struct TableComment: Decodable {
+/// Table comment.
+public struct Comment: Decodable {
     public let variable: String
     public let value: String
     public let comment: String
 }
 
-// MARK: Row
-
-public struct TableRow: Decodable {
+/// Table row.
+public struct Row: Decodable {
     public let key: [String]
     public let values: [String]
 }
 
-// MARK: Details
-
-public struct TableDetails: Decodable {
+/// Table metadata.
+public struct Metadata: Decodable {
     public let infofile: String
     public let updated: String
     public let label: String
     public let source: String
-}
-
-// MARK: Convenience
-
-extension String {
-    var double: Double {
-        return Double(self) ?? 0
-    }
-    
-    var int: Int {
-        return Int(self) ?? 0
-    }
 }
