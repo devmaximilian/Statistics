@@ -50,7 +50,11 @@ public struct Table: Decodable {
         } else {
             self.comments = []
         }
-        self.metadata = try container.decode([Metadata].self, forKey: .metadata)
+        if container.contains(.metadata) {
+            self.metadata = try container.decode([Metadata].self, forKey: .metadata)
+        } else {
+            self.metadata = []
+        }
     }
 }
 
