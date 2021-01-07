@@ -40,7 +40,7 @@ public struct Table: Decodable {
         case columns, rows = "data", comments, metadata
     }
     
-    public init(decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.columns = try container.decode([Column].self, forKey: .columns)
