@@ -24,13 +24,16 @@ import Foundation
 
 /// Client configuration.
 public struct Configuration {
+    private let _baseURL: String
+    
     let language: Language
     var baseURL: String {
-        "https://api.scb.se/OV0104/v1/doris/\(language.value)/ssd/"
+        _baseURL.replacingOccurrences(of: ":language", with: language.value)
     }
 
-    public init(language: Language = .swedish) {
+    public init(language: Language = .swedish, baseURL: String = "https://api.scb.se/OV0104/v1/doris/:language/ssd/") {
         self.language = language
+        self._baseURL = baseURL
     }
 }
 
